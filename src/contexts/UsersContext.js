@@ -21,7 +21,7 @@ const UsersContextProvider = ({ children }) => {
       },
     };
     const res = await axios.post(
-      "",
+      "https://fashioners-app.herokuapp.com/api/v1/users",
       user,
       config
     );
