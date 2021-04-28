@@ -7,7 +7,7 @@ const AddFashioner = () => {
         height: "80vh",
         width: "100%",
         display: "grid",
-        gridTemplateColumns: "50%",
+        gridTemplateColumns: "40%",
         justifyContent: "center",
         alignItems: "center",
       }}
