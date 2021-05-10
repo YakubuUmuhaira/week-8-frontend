@@ -14,7 +14,7 @@ const FashionersContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(fashionersReducer, initialState);
   //get all fashioners
   async function getFashioners() {
-    const res = await axios.get("https://fashioners-app.herokuapp.com/api/v1/fashioners");
+    const res = await axios.get("http://localhost:5050/api/v1/fashioners");
     try {
       dispatch({
         type: "GET_ALL_FASHIONERS",

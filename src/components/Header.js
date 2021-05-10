@@ -1,57 +1,84 @@
-import React, { useContext } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { FiPower } from "react-icons/fi";
+import React from "react";
+import {
+  Container,
+  Nav,
+  NavbarBrand,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
+import { useContext } from "react";
+import { FiPower, FiUser } from "react-icons/all";
 
-const Header = () => {
-  const { userInfo, logout } = useContext(UsersContext);
+function Header({ history }) {
+  const { logout, userInfo } = useContext(UsersContext);
 
-  const handlelogout = () => {
+  const handleLogout = () => {
     logout();
   };
 
   return (
-    <Navbar className="bg-primary navbar-expand text-white">
+    <Navbar className="bg-primary navbar-expand fixed-top">
       <Container>
-        <Navbar.Brand>TD4Y</Navbar.Brand>
+        <NavbarBrand className="text-white">WA FASHIONERS</NavbarBrand>
         <Nav>
-          <Nav.Item>
-            <Link to="/fashioners" className="nav-link text-white">
-              FASHIONERS
+          <Nav.Link>
+            <Link to="/" className="nav-link text-white">
+              HOME
             </Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Link to="/addfashioner" className="nav-link text-white">
-              ADD
-            </Link>
-          </Nav.Item>
-          {userInfo.name ? (
+          </Nav.Link>
+
+          {userInfo.token ? (
             <>
-              <Nav.Item>
-                <Link onClick={handlelogout} className="nav-link text-white">
-                  <FiPower />
+              <Nav.Link>
+                <Link to="/fashioners" className="nav-link text-white">
+                  FASHIONERS
                 </Link>
-              </Nav.Item>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to="/addfashioner" className="nav-link text-white">
+                  ADD
+                </Link>
+              </Nav.Link>
+              <NavDropdown
+                title={
+                  <FiUser
+                    size={25}
+                    style={{
+                      border: "2px solid #000",
+                      borderRadius: 20,
+                      padding: 1,
+                    }}
+                  />
+                }
+              >
+                <NavDropdown.Item>{userInfo.name}</NavDropdown.Item>
+                <NavDropdown.Item>{userInfo.email}</NavDropdown.Item>
+                <NavDropdown.Item className="nav-link" onClick={handleLogout}>
+                  <FiPower size={30} />
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
             </>
           ) : (
             <>
-              <Nav.Item>
+              <Nav.Link>
                 <Link to="/login" className="nav-link text-white">
                   SIGN IN
                 </Link>
-              </Nav.Item>
-              <Nav.Item>
+              </Nav.Link>
+              <Nav.Link>
                 <Link to="/register" className="nav-link text-white">
                   SIGN UP
                 </Link>
-              </Nav.Item>
+              </Nav.Link>
             </>
           )}
         </Nav>
       </Container>
     </Navbar>
   );
-};
+}
 
 export default Header;

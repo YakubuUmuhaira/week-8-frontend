@@ -14,33 +14,29 @@ const UsersContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(usersReducer, initialState);
 
   //login action
-  async function loginUser(user) {
+  async function loginUser(userInfo) {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
     const res = await axios.post(
-      "https://fashioners-app.herokuapp.com/api/v1/users",
-      user,
+      "http://localhost:5050/api/v1/users/login",
+      userInfo,
       config
     );
 
-    localStorage.setItem("userInfo", res.data.token_id);
-
-    console.log(res);
+    localStorage.setItem("userInfo", JSON.stringify(res.data));
+    const userLogin = (await localStorage.getItem("userInfo"))
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : {};
 
     dispatch({
       type: "LOGIN",
-      payload: res.data,
+      payload: userLogin,
     });
+    console.log(res.data);
   }
-  //logout
-  const logout = () => {
-    dispatch({
-      type: "LOGOUT",
-    });
-  };
 
   //register user
   async function registerUser(newuser) {
@@ -51,7 +47,7 @@ const UsersContextProvider = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        "https://trainees-api.herokuapp.com/api/v1/users/register",
+        "http://localhost:5050/api/v1/users/register",
         newuser,
         config
       );
@@ -64,7 +60,13 @@ const UsersContextProvider = ({ children }) => {
       console.log(error.message);
     }
   }
-
+  //logout
+  const logout = async () => {
+    await localStorage.removeItem("userInfo");
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
   return (
     <UsersContext.Provider
       value={{ userInfo: state.userInfo, loginUser, registerUser, logout }}

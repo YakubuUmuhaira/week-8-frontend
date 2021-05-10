@@ -32,7 +32,14 @@ const RegisterUserScreen = () => {
   }
 
   return (
-    <div>
+    <div     style={{
+      height: "80vh",
+      width: "100%",
+      display: "grid",
+      gridTemplateColumns: "50%",
+      justifyContent: "center",
+      alignItems: "center",
+    }}>
       <Row className="justify-content-md-center">
         <Col
           xs={12}
@@ -42,7 +49,7 @@ const RegisterUserScreen = () => {
           className="border border-white mt-5 p-3"
         >
           <Form onSubmit={handlesubmit}>
-            <Form.Group>
+            <Form.Group >
               <h2 className="text-center">SIGN UP</h2>
               <Form.Label>name</Form.Label>
               <Form.Control
